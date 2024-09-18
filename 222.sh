@@ -3,7 +3,7 @@
 # 定义变量
 SERVICE_NAME="ore-pool.service"
 USER_NAME="root"
-WORKING_DIR="/home/ore-pool-cli"  # 请替换为ore-pool-cli的实际目录
+WORKING_DIR="/home"  # 请替换为ore-pool-cli的实际目录
 EXEC_START="$WORKING_DIR/ore-pool-cli-v1.1.0 mine --address 61k1qonXeoxfMf89a9e2qHLjLgwrvrwse4f9JqJScH8Y --server ws://103.148.58.194:8989/"
 SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
 
