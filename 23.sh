@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# 提示用户输入自定义端口
-read -p "请输入你想使用的HTTP代理端口（默认：3128）：" CUSTOM_PORT
-CUSTOM_PORT=${CUSTOM_PORT:-6688}  # 如果用户未输入，则使用默认端口3128
+# 直接设置HTTP代理端口为6688
+CUSTOM_PORT=6688
 
 # 更新系统包列表
-sudo apt-get update
+sudo apt-get update -y
 
 # 安装Squid
 sudo apt-get install -y squid
@@ -16,7 +15,7 @@ sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.bak
 # 配置Squid允许所有IP访问
 sudo sed -i 's/http_access deny all/http_access allow all/' /etc/squid/squid.conf
 
-# 修改Squid监听端口
+# 修改Squid监听端口为6688
 sudo sed -i "s/http_port 3128/http_port $CUSTOM_PORT/" /etc/squid/squid.conf
 
 # 重启Squid服务以应用配置
