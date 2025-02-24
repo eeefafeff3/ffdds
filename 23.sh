@@ -2,7 +2,7 @@
 
 # 提示用户输入自定义端口
 read -p "请输入你想使用的HTTP代理端口（默认：3128）：" CUSTOM_PORT
-CUSTOM_PORT=${CUSTOM_PORT:-3128}  # 如果用户未输入，则使用默认端口3128
+CUSTOM_PORT=${CUSTOM_PORT:-6688}  # 如果用户未输入，则使用默认端口3128
 
 # 更新系统包列表
 sudo apt-get update
