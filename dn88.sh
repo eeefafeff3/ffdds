@@ -6,59 +6,39 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-echo "正在使用Netplan将DNS设置为8.8.8.8..."
+echo "正在使用NetworkManager将DNS设置为8.8.8.8..."
 
-# 获取当前网络接口名称（通常是eth0）
-INTERFACE=$(ip link | grep -o '^[0-9]: [^:]*' | grep -v lo | awk '{print $2}' | head -n 1)
-if [ -z "$INTERFACE" ]; then
-  echo "未找到网络接口，请检查系统网络配置"
+# 检查并安装NetworkManager（如果未安装）
+if ! command -v nmcli > /dev/null; then
+  echo "NetworkManager未安装，正在安装..."
+  apt-get update -y
+  apt-get install network-manager -y
+fi
+
+# 获取当前网络连接名称（通常是System eth0或类似）
+CONNECTION=$(nmcli -t -f NAME con show --active | head -n 1)
+if [ -z "$CONNECTION" ]; then
+  echo "未找到活跃网络连接，请检查网络状态"
   exit 1
 fi
-echo "检测到的网络接口: $INTERFACE"
+echo "检测到的网络连接: $CONNECTION"
 
-# 备份原始Netplan配置文件（如果存在）
-NETPLAN_FILE="/etc/netplan/01-netcfg.yaml"
-if [ -f "$NETPLAN_FILE" ]; then
-  cp "$NETPLAN_FILE" "$NETPLAN_FILE.bak"
-  echo "已备份原始配置文件到 $NETPLAN_FILE.bak"
-fi
+# 设置DNS为8.8.8.8，不禁用自动DNS
+echo "配置DNS..."
+nmcli con mod "$CONNECTION" ipv4.dns "8.8.8.8"
 
-# 写入新的Netplan配置
-cat << EOF > "$NETPLAN_FILE"
-network:
-  version: 2
-  ethernets:
-    $INTERFACE:
-      dhcp4: true
-      nameservers:
-        addresses: [8.8.8.8]
-EOF
+# 应用更改
+echo "应用网络配置..."
+nmcli con up "$CONNECTION"
 
-# 检查配置文件语法
-echo "检查Netplan配置..."
-sudo netplan try
-if [ $? -ne 0 ]; then
-  echo "Netplan配置有误，正在恢复备份..."
-  mv "$NETPLAN_FILE.bak" "$NETPLAN_FILE"
-  exit 1
-fi
-
-# 应用配置
-echo "应用Netplan配置..."
-sudo netplan apply
-
-# 刷新网络（确保立即生效）
-echo "刷新网络配置..."
-sudo dhclient -r "$INTERFACE" && sudo dhclient "$INTERFACE"
+# 重启NetworkManager服务以确保生效
+echo "重启NetworkManager服务..."
+systemctl restart NetworkManager
 
 # 验证DNS设置
 echo "验证DNS配置..."
-if command -v resolvectl > /dev/null; then
-  resolvectl status | grep "DNS Servers"
-else
-  cat /etc/resolv.conf
-fi
+nmcli con show "$CONNECTION" | grep -i dns
 dig google.com | grep "SERVER"
 
 echo "DNS已设置为8.8.8.8完成！"
-echo "若需恢复默认，请手动编辑 $NETPLAN_FILE 或恢复备份。"
+echo "若需恢复默认，可运行：nmcli con mod '$CONNECTION' ipv4.dns ''"
