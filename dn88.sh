@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-echo "正在使用NetworkManager将DNS设置为8.8.8.8..."
+echo "正在使用NetworkManager将DNS设置为1.1.1.1..."
 
 # 检查并安装NetworkManager（如果未安装）
 if ! command -v nmcli > /dev/null; then
@@ -23,9 +23,9 @@ if [ -z "$CONNECTION" ]; then
 fi
 echo "检测到的网络连接: $CONNECTION"
 
-# 设置DNS为8.8.8.8，不禁用自动DNS
+# 设置DNS为1.1.1.1，不禁用自动DNS
 echo "配置DNS..."
-nmcli con mod "$CONNECTION" ipv4.dns "8.8.8.8"
+nmcli con mod "$CONNECTION" ipv4.dns "1.1.1.1"
 
 # 应用更改
 echo "应用网络配置..."
@@ -40,5 +40,5 @@ echo "验证DNS配置..."
 nmcli con show "$CONNECTION" | grep -i dns
 dig google.com | grep "SERVER"
 
-echo "DNS已设置为8.8.8.8完成！"
+echo "DNS已设置为1.1.1.18完成！"
 echo "若需恢复默认，可运行：nmcli con mod '$CONNECTION' ipv4.dns ''"
