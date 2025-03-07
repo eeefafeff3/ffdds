@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为5959
-CUSTOM_PORT=5959
+# 直接设置HTTP代理端口为2299
+CUSTOM_PORT=2299
 
 # 更新系统包列表
 #sudo apt-get update -y
@@ -19,7 +19,7 @@ http_port $CUSTOM_PORT
 http_access allow all
 
 # 强制使用1.1.1.1作为DNS服务器
-dns_nameservers 1.1.1.2
+dns_nameservers 1.1.1.1
 
 # 默认配置保持不变
 cache_dir ufs /var/spool/squid 100 16 256
@@ -36,4 +36,4 @@ sudo systemctl enable squid
 echo "HTTP代理服务器已搭建完成！"
 echo "代理服务器地址：$(hostname -I | awk '{print $1}')"
 echo "代理服务器端口：$CUSTOM_PORT"
-echo "DNS服务器：1.1.1.2"
+echo "DNS服务器：1.1.1.1"
