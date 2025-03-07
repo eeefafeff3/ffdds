@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为6688
-CUSTOM_PORT=6688
+# 直接设置HTTP代理端口为1155
+CUSTOM_PORT=1155
 
 # 更新系统包列表
-sudo apt-get update -y
+#sudo apt-get update -y
 
 # 安装Squid
 sudo apt-get install -y squid
@@ -12,11 +12,19 @@ sudo apt-get install -y squid
 # 备份原始配置文件
 sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.bak
 
-# 配置Squid允许所有IP访问
-sudo sed -i 's/http_access deny all/http_access allow all/' /etc/squid/squid.conf
+# 创建新的配置文件
+cat << EOF | sudo tee /etc/squid/squid.conf
+# 基本配置
+http_port $CUSTOM_PORT
+http_access allow all
 
-# 修改Squid监听端口为6688
-sudo sed -i "s/http_port 3128/http_port $CUSTOM_PORT/" /etc/squid/squid.conf
+# 强制使用8.8.8.8作为DNS服务器
+dns_nameservers 8.8.8.8
+
+# 默认配置保持不变
+cache_dir ufs /var/spool/squid 100 16 256
+coredump_dir /var/spool/squid
+EOF
 
 # 重启Squid服务以应用配置
 sudo systemctl restart squid
@@ -28,3 +36,4 @@ sudo systemctl enable squid
 echo "HTTP代理服务器已搭建完成！"
 echo "代理服务器地址：$(hostname -I | awk '{print $1}')"
 echo "代理服务器端口：$CUSTOM_PORT"
+echo "DNS服务器：1.1.1.2"
