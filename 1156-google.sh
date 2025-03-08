@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为1155
-CUSTOM_PORT=1155
+# 直接设置HTTP代理端口为1156
+CUSTOM_PORT=1156
 
 # 更新系统包列表
 #sudo apt-get update -y
@@ -36,4 +36,4 @@ sudo systemctl enable squid
 echo "HTTP代理服务器已搭建完成！"
 echo "代理服务器地址：$(hostname -I | awk '{print $1}')"
 echo "代理服务器端口：$CUSTOM_PORT"
-echo "DNS服务器：1.1.1.2"
+echo "DNS服务器：8.8.8.8"
