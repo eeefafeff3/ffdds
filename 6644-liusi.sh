@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为6644
-CUSTOM_PORT=6644
+# 直接设置HTTP代理端口为6646
+CUSTOM_PORT=6646
 
 # 更新系统包列表
 #sudo apt-get update -y
