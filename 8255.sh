@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为8266
-CUSTOM_PORT=8266
+# 直接设置HTTP代理端口为8255
+CUSTOM_PORT=8255
 
 # 更新系统包列表
 #sudo apt-get update -y
