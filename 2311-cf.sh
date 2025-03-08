@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为2299
-CUSTOM_PORT=2299
+# 直接设置HTTP代理端口为2311
+CUSTOM_PORT=2311
 
 # 更新系统包列表
 #sudo apt-get update -y
