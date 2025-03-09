@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 直接设置HTTP代理端口为4488
-CUSTOM_PORT=7799
+# 直接设置HTTP代理端口为 
+CUSTOM_PORT=7791
 
 # 更新系统包列表
 #sudo apt-get update -y
