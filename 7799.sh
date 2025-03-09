@@ -19,7 +19,7 @@ http_port $CUSTOM_PORT
 http_access allow all
 
 # 强制使用127.0.0.53作为DNS服务器
-dns_nameservers 192.50.43.53
+dns_nameservers 149.112.112.112
 
 # 默认配置保持不变
 cache_dir ufs /var/spool/squid 100 16 256
