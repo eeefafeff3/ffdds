@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 直接设置HTTP代理端口为 
-CUSTOM_PORT=3222
+CUSTOM_PORT=5691
 
 # 更新系统包列表
 #sudo apt-get update -y
