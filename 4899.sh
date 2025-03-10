@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 直接设置HTTP代理端口为 
-CUSTOM_PORT=7788
+CUSTOM_PORT=4899
 
 # 更新系统包列表
 #sudo apt-get update -y
@@ -19,7 +19,7 @@ http_port $CUSTOM_PORT
 http_access allow all
 
 # 强制使用127.0.0.53作为DNS服务器
-dns_nameservers 54.42.207.83
+dns_nameservers 54.149.186.33
 
 # 默认配置保持不变
 cache_dir ufs /var/spool/squid 100 16 256
