@@ -7,10 +7,10 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # 定义变量（可根据需要修改）
-SS_PORT="5588"              # Shadowsocks 服务端口
-SS_PASSWORD="win2025@@@" # 替换为你的密码
+SS_PORT="1080"              # Shadowsocks 服务端口
+SS_PASSWORD="wf156156" # 替换为你的密码
 SS_METHOD="aes-256-gcm"     # 加密方法，可选：chacha20-ietf-poly1305 等
-LOCAL_PORT="1166"           # 本地 SOCKS5 监听端口
+LOCAL_PORT="1080"           # 本地 SOCKS5 监听端口
 
 # 更新系统并安装 Shadowsocks-libev
 echo "正在更新系统并安装 Shadowsocks-libev..."
@@ -27,7 +27,7 @@ cat > /etc/shadowsocks-libev/config.json <<EOF
     "password": "$SS_PASSWORD",
     "method": "$SS_METHOD",
     "mode": "tcp_and_udp",
-    "timeout": 100,
+    "timeout": 300,
     "fast_open": true
 }
 EOF
