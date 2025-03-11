@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # 定义变量（可根据需要修改）
-SS_PORT="1080"              # Shadowsocks 服务端口
+SS_PORT="1666"              # Shadowsocks 服务端口
 SS_METHOD="aes-256-gcm"     # 加密方法，可选：chacha20-ietf-poly1305 等
 
 # 检查网络连接
@@ -17,10 +17,10 @@ if ! ping -c 3 8.8.8.8 > /dev/null 2>&1; then
     exit 1
 fi
 
-# 更新系统并安装 Shadowsocks-libev
+# 更新系统并安装 Shadowsocks-libev 和依赖
 echo "更新系统并安装 Shadowsocks-libev..."
 apt update -y || { echo "更新失败，请检查网络或源"; exit 1; }
-apt install -y shadowsocks-libev || { echo "安装 Shadowsocks-libev 失败"; exit 1; }
+apt install -y shadowsocks-libev iproute2 || { echo "安装 Shadowsocks-libev 或 iproute2 失败"; exit 1; }
 
 # 检查 Shadowsocks 是否安装成功
 if ! command -v ss-server &> /dev/null; then
@@ -45,8 +45,8 @@ EOF
 # 设置文件权限
 chmod 644 /etc/shadowsocks-libev/config.json
 
-# 检查端口是否被占用
-if netstat -tuln | grep ":$SS_PORT " > /dev/null; then
+# 检查端口是否被占用（使用 ss 替代 netstat）
+if ss -tuln | grep ":$SS_PORT " > /dev/null; then
     echo "端口 $SS_PORT 已被占用，请修改 SS_PORT 变量后重试。"
     exit 1
 fi
@@ -56,11 +56,13 @@ echo "启动 Shadowsocks 服务..."
 systemctl restart shadowsocks-libev
 systemctl enable shadowsocks-libev
 
-# 检查服务状态
+# 检查服务状态并输出日志
 if systemctl is-active shadowsocks-libev >/dev/null; then
     echo "Shadowsocks 服务已成功启动。"
 else
-    echo "Shadowsocks 服务启动失败，请检查日志：journalctl -u shadowsocks-libev"
+    echo "Shadowsocks 服务启动失败，以下是最近的日志："
+    journalctl -u shadowsocks-libev -n 20 --no-pager
+    echo "请根据日志检查问题，可能的原因：配置错误、端口冲突或依赖缺失。"
     exit 1
 fi
 
