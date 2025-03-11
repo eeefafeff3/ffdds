@@ -27,7 +27,7 @@ cat > /etc/shadowsocks-libev/config.json <<EOF
     "password": "$SS_PASSWORD",
     "method": "$SS_METHOD",
     "mode": "tcp_and_udp",
-    "timeout": 300,
+    "timeout": 30,
     "fast_open": true
 }
 EOF
