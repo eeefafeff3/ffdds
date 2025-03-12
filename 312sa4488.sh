@@ -12,7 +12,6 @@ USERNAME="wodeha"
 PASSWORD="wodeha"
 
 # 更新系统并安装必要工具
-echo "正在更新系统并安装依赖..."
 apt install build-essential wget -y
 
 # 下载并安装 Dante
