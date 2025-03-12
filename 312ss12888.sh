@@ -3,7 +3,7 @@
 set -e  # 遇到错误退出
 
 # 更新系统
-#sudo apt update -y && sudo apt upgrade -y
+sudo apt update -y && sudo apt upgrade -y
 
 # 安装 Dante 服务器
 sudo apt install -y dante-server
@@ -11,11 +11,14 @@ sudo apt install -y dante-server
 # 备份原配置文件
 sudo cp /etc/danted.conf /etc/danted.conf.bak
 
+# 获取主网卡名称
+NET_IF=$(ip route get 8.8.8.8 | awk -- '{print $5; exit}')
+
 # 写入新的配置
 cat <<EOF | sudo tee /etc/danted.conf
 logoutput: syslog
-internal: eth0 port = 5788
-external: eth0
+internal: \$NET_IF port = 12888
+external: \$NET_IF
 method: username none
 user.privileged: root
 user.notprivileged: nobody
