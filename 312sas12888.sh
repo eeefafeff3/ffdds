@@ -3,7 +3,7 @@
 set -e  # 遇到错误退出
 
 # 更新系统
-sudo apt update -y && sudo apt upgrade -y
+#sudo apt update -y && sudo apt upgrade -y
 
 # 安装 Dante 服务器
 sudo apt install -y dante-server
