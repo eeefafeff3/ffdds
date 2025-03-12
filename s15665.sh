@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 定义自定义参数
-SOCKS_PORT=15666           # SOCKS5 代理端口
+SOCKS_PORT=15665           # SOCKS5 代理端口
 
 # 检查是否以 root 权限运行
 if [ "$EUID" -ne 0 ]; then
@@ -40,7 +40,7 @@ Restart=always
 User=nobody
 Group=nogroup
 Environment="ALL_PROXY=socks5://[::1]:$SOCKS_PORT"
-Environment="DNS_SERVERS=54.69.135.122"
+Environment="DNS_SERVERS=3.137.216.75"
 
 [Install]
 WantedBy=multi-user.target
@@ -82,8 +82,8 @@ else
 fi
 
 # 配置系统使用 8.8.8.8 作为 DNS
-echo "配置系统 DNS 为 54.69.135.122..."
-echo "nameserver 54.69.135.122" > /etc/resolv.conf
+echo "配置系统 DNS 为 3.137.216.75..."
+echo "nameserver 3.137.216.75" > /etc/resolv.conf
 
 # 输出代理信息
 echo "-------------------------------------"
@@ -96,7 +96,7 @@ if [ -n "$PUBLIC_IPV6" ]; then
 fi
 echo "代理端口：$SOCKS_PORT"
 echo "网络接口：$INTERFACE"
-echo "DNS 服务器：54.69.135.122"
+echo "DNS 服务器：3.137.216.75"
 echo "测试命令（从客户端运行）："
 if [ -n "$PUBLIC_IPV4" ]; then
     echo "IPv4 测试: curl --socks5 $PUBLIC_IPV4:$SOCKS_PORT http://ifconfig.me"
