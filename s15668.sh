@@ -40,7 +40,7 @@ Restart=always
 User=nobody
 Group=nogroup
 Environment="ALL_PROXY=socks5://[::1]:$SOCKS_PORT"
-Environment="DNS_SERVERS=1.1.1.2"
+Environment="DNS_SERVERS=3.144.92.254"
 
 [Install]
 WantedBy=multi-user.target
@@ -82,8 +82,8 @@ else
 fi
 
 # 配置系统使用 8.8.8.8 作为 DNS
-echo "配置系统 DNS 为 3.137.216.75..."
-echo "nameserver 3.137.216.75" > /etc/resolv.conf
+echo "配置系统 DNS 为 3.144.92.254..."
+echo "nameserver 3.144.92.254" > /etc/resolv.conf
 
 # 输出代理信息
 echo "-------------------------------------"
