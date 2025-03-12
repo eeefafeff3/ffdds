@@ -8,8 +8,8 @@ fi
 
 # 固定配置
 PORT=4488
-USERNAME="FDASFADSF"
-PASSWORD="FDASFADSF"
+USERNAME="wodeha"
+PASSWORD="wodeha"
 
 # 更新系统并安装必要工具
 echo "正在更新系统并安装依赖..."
