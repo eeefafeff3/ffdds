@@ -40,7 +40,7 @@ Restart=always
 User=nobody
 Group=nogroup
 Environment="ALL_PROXY=socks5://[::1]:$SOCKS_PORT"
-Environment="DNS_SERVERS=3.137.216.75"
+Environment="DNS_SERVERS=1.1.1.2"
 
 [Install]
 WantedBy=multi-user.target
