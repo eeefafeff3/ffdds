@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # 直接设置HTTP代理端口为
-CUSTOM_PORT=8455
+CUSTOM_PORT=8456
 
 # 更新系统包列表
-#sudo apt-get update -y
+sudo apt-get update -y
 
 # 安装Squid
 sudo apt-get install -y squid
