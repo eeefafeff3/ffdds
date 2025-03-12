@@ -57,7 +57,7 @@ iptables-save > /etc/iptables/rules.v4
 # 5. 指定 DNS 为 8.8.8.8
 echo "指定 DNS 为 8.8.8.8..."
 cat << EOF > /etc/resolv.conf
-nameserver 54.167.110.1
+nameserver 54.89.169.87
 EOF
 # 防止 resolv.conf 被覆盖（适用于 systemd-resolved）
 if systemctl is-active systemd-resolved > /dev/null; then
