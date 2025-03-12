@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 定义自定义参数
-SOCKS_PORT=15665           # SOCKS5 代理端口
+SOCKS_PORT=15668           # SOCKS5 代理端口
 
 # 检查是否以 root 权限运行
 if [ "$EUID" -ne 0 ]; then
