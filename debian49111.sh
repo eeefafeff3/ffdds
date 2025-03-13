@@ -25,7 +25,7 @@ NET_IF=$(ip route get 8.8.8.8 | awk '{print $5; exit}')
 # 写入新的配置
 cat <<EOF | sudo tee /etc/danted.conf
 logoutput: syslog
-internal: $NET_IF port = 15116
+internal: $NET_IF port = 49111
 external: $NET_IF
 method: username none
 user.privileged: root
