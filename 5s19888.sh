@@ -12,7 +12,7 @@ apt update && apt upgrade -y
 apt install -y dante-server
 
 # 设置 SOCKS5 配置参数
-SOCKS_PORT=19888
+SOCKS_PORT=1577
 SOCKS_USER="wfwf"  # 自定义用户名
 SOCKS_PASS="wfwf"  # 自定义密码（请修改为强密码）
 
