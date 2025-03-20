@@ -13,10 +13,8 @@ apt install -y dante-server
 
 # 设置 SOCKS5 配置参数
 SOCKS_PORT=1577
-SOCKS_USER="wfwf"  # 自定义用户名
-SOCKS_PASS="wfwf"  # 自定义密码（请修改为强密码）
 
-# 创建 Dante 配置文件
+# 创建 Dante 配置文件（无密码模式）
 echo "正在配置 Dante SOCKS5 服务器..."
 cat > /etc/danted.conf <<EOF
 # 日志输出
@@ -26,8 +24,8 @@ logoutput: /var/log/danted.log
 internal: 0.0.0.0 port = $SOCKS_PORT
 external: 0.0.0.0
 
-# SOCKS5 方法：用户名/密码认证
-socksmethod: username
+# SOCKS5 方法：无需认证
+socksmethod: none
 
 # 客户端连接规则
 client pass {
@@ -40,15 +38,15 @@ socks pass {
     from: 0.0.0.0/0 to: 0.0.0.0/0
     command: bind connect udpassociate
     log: error connect disconnect
-    socksmethod: username
+    socksmethod: none
 }
 EOF
 
-# 创建用户认证文件
-echo "正在设置用户认证..."
-echo "$SOCKS_USER:$SOCKS_PASS" > /etc/danted.passwd
-chmod 600 /etc/danted.passwd
-chown nobody:nogroup /etc/danted.passwd
+# 确保日志文件权限
+echo "确保日志文件权限..."
+touch /var/log/danted.log
+chown nobody:nogroup /var/log/danted.log
+chmod 644 /var/log/danted.log
 
 # 启动并启用 Dante 服务
 echo "正在启动 SOCKS5 服务..."
@@ -59,8 +57,7 @@ systemctl enable danted
 if systemctl is-active danted >/dev/null; then
   echo "SOCKS5 代理已成功启动！"
   echo "代理地址: $(curl -s ifconfig.me):$SOCKS_PORT"
-  echo "用户名: $SOCKS_USER"
-  echo "密码: $SOCKS_PASS"
+  echo "无需用户名和密码，直接连接即可"
 else
   echo "启动失败，请检查 /var/log/danted.log 获取错误信息"
   exit 1
@@ -81,6 +78,5 @@ echo "1. 在 Firefox 中设置 SOCKS5 代理："
 echo "   - 地址: $(curl -s ifconfig.me)"
 echo "   - 端口: $SOCKS_PORT"
 echo "   - 勾选 '通过代理进行 DNS 查询'"
-echo "2. 使用强密码并定期更换。"
-echo "3. 测试代理：访问 https://httpbin.org/headers 检查头信息。"
+echo "2. 测试代理：访问 https://httpbin.org/headers 检查头信息。"
 echo "-----------------------------------"
