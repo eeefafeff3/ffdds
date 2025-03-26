@@ -168,34 +168,46 @@ SERVER_WG_IPV4="10.$((RANDOM % 201)).$((RANDOM % 256)).$((RANDOM % 256))"
 echo "Generated WireGuard IPv4: ${SERVER_WG_IPV4}"
 
 
-	until [[ ${SERVER_WG_IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
-		read -rp "Server WireGuard IPv6: " -e -i fd42:42:42::1 SERVER_WG_IPV6
-	done
+# 随机生成一个符合 fd00::/8 地址段的本地 IPv6 地址
+SERVER_WG_IPV6="fd42:$(printf '%x' $((RANDOM % 65536))):$(printf '%x' $((RANDOM % 65536))):$(printf '%x' $((RANDOM % 65536))):$(printf '%x' $((RANDOM % 65536)))::1"
+
+# 输出生成的 IPv6 地址
+echo "Generated WireGuard IPv6: ${SERVER_WG_IPV6}"
+
 
 	# Generate random number within private ports range
-	RANDOM_PORT=$(shuf -i49152-65535 -n1)
-	until [[ ${SERVER_PORT} =~ ^[0-9]+$ ]] && [ "${SERVER_PORT}" -ge 1 ] && [ "${SERVER_PORT}" -le 65535 ]; do
-		read -rp "Server WireGuard port [1-65535]: " -e -i "${RANDOM_PORT}" SERVER_PORT
-	done
+# 自动生成一个 49152 到 65535 范围内的随机端口
+SERVER_PORT=$(shuf -i49152-65535 -n1)
+
+# 输出生成的端口
+echo "Generated WireGuard port: ${SERVER_PORT}"
+
 
 	# Adguard DNS by default
-	until [[ ${CLIENT_DNS_1} =~ ^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ ]]; do
-		read -rp "First DNS resolver to use for the clients: " -e -i 1.1.1.1 CLIENT_DNS_1
-	done
-	until [[ ${CLIENT_DNS_2} =~ ^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ ]]; do
-		read -rp "Second DNS resolver to use for the clients (optional): " -e -i 1.0.0.1 CLIENT_DNS_2
-		if [[ ${CLIENT_DNS_2} == "" ]]; then
-			CLIENT_DNS_2="${CLIENT_DNS_1}"
-		fi
-	done
+# 自动设置一个 DNS 地址，例如 1.1.1.1
+CLIENT_DNS_1="1.1.1.1"
 
-	until [[ ${ALLOWED_IPS} =~ ^.+$ ]]; do
-		echo -e "\nWireGuard uses a parameter called AllowedIPs to determine what is routed over the VPN."
-		read -rp "Allowed IPs list for generated clients (leave default to route everything): " -e -i '0.0.0.0/0,::/0' ALLOWED_IPS
-		if [[ ${ALLOWED_IPS} == "" ]]; then
-			ALLOWED_IPS="0.0.0.0/0,::/0"
-		fi
-	done
+# 输出设置的 DNS 地址
+echo "Using DNS resolver for clients: ${CLIENT_DNS_1}"
+
+# 自动设置第二个 DNS 地址为 1.0.0.1
+CLIENT_DNS_2="1.0.0.1"
+
+# 如果 CLIENT_DNS_2 为空，则使用 CLIENT_DNS_1 的值作为默认值
+if [[ -z "$CLIENT_DNS_2" ]]; then
+    CLIENT_DNS_2="${CLIENT_DNS_1}"
+fi
+
+# 输出设置的第二个 DNS 地址
+echo "Using second DNS resolver for clients: ${CLIENT_DNS_2}"
+
+
+# 自动设置 Allowed IPs 为默认值 '0.0.0.0/0,::/0'
+ALLOWED_IPS="0.0.0.0/0,::/0"
+
+# 输出设置的 Allowed IPs
+echo "Using Allowed IPs: ${ALLOWED_IPS}"
+
 
 	echo ""
 	echo "Okay, that was all I needed. We are ready to setup your WireGuard server now."
