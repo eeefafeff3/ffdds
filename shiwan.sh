@@ -129,7 +129,7 @@ function installQuestions() {
 	echo ""
 
 	# Detect public IPv4 or IPv6 address and pre-fill for the user
-SERVER_PUB_IP=$(curl -s ifconfig.me || curl -s icanhazip.com || curl -s ident.me)
+	SERVER_PUB_IP=$(curl -s ifconfig.me || curl -s icanhazip.com || curl -s ident.me)
 
 if [[ -z ${SERVER_PUB_IP} ]]; then
     # 检测 IPv6 地址（如果 IPv4 获取失败）
@@ -182,7 +182,6 @@ SERVER_PORT=$(shuf -i49152-65535 -n1)
 # 输出生成的端口
 echo "Generated WireGuard port: ${SERVER_PORT}"
 
-
 	# Adguard DNS by default
 # 自动设置一个 DNS 地址，例如 1.1.1.1
 CLIENT_DNS_1="1.1.1.1"
@@ -208,7 +207,11 @@ ALLOWED_IPS="0.0.0.0/0,::/0"
 # 输出设置的 Allowed IPs
 echo "Using Allowed IPs: ${ALLOWED_IPS}"
 
-
+	echo ""
+	echo "Okay, that was all I needed. We are ready to setup your WireGuard server now."
+	echo "You will be able to generate a client at the end of the installation."
+	read -n1 -r -p "Press any key to continue..."
+}
 
 function installWireGuard() {
 	# Run setup questions first
