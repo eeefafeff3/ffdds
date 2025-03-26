@@ -161,9 +161,12 @@ else
 fi
 
 
-	until [[ ${SERVER_WG_IPV4} =~ ^([0-9]{1,3}\.){3} ]]; do
-		read -rp "Server WireGuard IPv4: " -e -i 10.66.66.1 SERVER_WG_IPV4
-	done
+# 随机生成一个 10.0.0.1 到 10.200.200.1 范围内的 IP 地址
+SERVER_WG_IPV4="10.$((RANDOM % 201)).$((RANDOM % 256)).$((RANDOM % 256))"
+
+# 输出生成的 IP 地址
+echo "Generated WireGuard IPv4: ${SERVER_WG_IPV4}"
+
 
 	until [[ ${SERVER_WG_IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
 		read -rp "Server WireGuard IPv6: " -e -i fd42:42:42::1 SERVER_WG_IPV6
