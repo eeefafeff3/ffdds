@@ -150,9 +150,16 @@ else
 fi
 
 
-	until [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; do
-	read -rp "WireGuard interface name: " -e -i wg$(tr -dc 'a-z0-9' </dev/urandom | head -c4) SERVER_WG_NIC
-	done
+SERVER_WG_NIC="wg$(tr -dc 'a-z0-9' </dev/urandom | head -c4)"
+
+# 检查生成的接口名称是否符合要求
+if [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; then
+    echo "Generated WireGuard interface name: ${SERVER_WG_NIC}"
+else
+    echo "Failed to generate a valid WireGuard interface name."
+    exit 1
+fi
+
 
 	until [[ ${SERVER_WG_IPV4} =~ ^([0-9]{1,3}\.){3} ]]; do
 		read -rp "Server WireGuard IPv4: " -e -i 10.66.66.1 SERVER_WG_IPV4
