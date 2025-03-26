@@ -208,13 +208,10 @@ ALLOWED_IPS="0.0.0.0/0,::/0"
 # 输出设置的 Allowed IPs
 echo "Using Allowed IPs: ${ALLOWED_IPS}"
 
-
-echo ""
-echo "Okay, that was all I needed. We are ready to setup your WireGuard server now."
-echo "You will be able to generate a client at the end of the installation."
-
-# 自动继续执行，不需要用户按键
-sleep 3  # 可选：添加1秒延迟，模拟一些时间间隔
+	echo ""
+	echo "Okay, that was all I needed. We are ready to setup your WireGuard server now."
+	echo "You will be able to generate a client at the end of the installation."
+	read -n1 -r -p "Press any key to continue..."
 
 
 function installWireGuard() {
