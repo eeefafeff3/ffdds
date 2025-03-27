@@ -200,12 +200,15 @@ fi
 # 输出设置的第二个 DNS 地址
 echo "Using second DNS resolver for clients: ${CLIENT_DNS_2}"
 
+	done
 
-# 自动设置 Allowed IPs 为默认值 '0.0.0.0/0,::/0'
-ALLOWED_IPS="0.0.0.0/0,::/0"
-
-# 输出设置的 Allowed IPs
-echo "Using Allowed IPs: ${ALLOWED_IPS}"
+	until [[ ${ALLOWED_IPS} =~ ^.+$ ]]; do
+		echo -e "\nWireGuard uses a parameter called AllowedIPs to determine what is routed over the VPN."
+		read -rp "Allowed IPs list for generated clients (leave default to route everything): " -e -i '0.0.0.0/0,::/0' ALLOWED_IPS
+		if [[ ${ALLOWED_IPS} == "" ]]; then
+			ALLOWED_IPS="0.0.0.0/0,::/0"
+		fi
+	done
 
 	echo ""
 	echo "Okay, that was all I needed. We are ready to setup your WireGuard server now."
