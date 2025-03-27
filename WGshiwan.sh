@@ -200,8 +200,6 @@ fi
 # 输出设置的第二个 DNS 地址
 echo "Using second DNS resolver for clients: ${CLIENT_DNS_2}"
 
-	done
-
 	until [[ ${ALLOWED_IPS} =~ ^.+$ ]]; do
 		echo -e "\nWireGuard uses a parameter called AllowedIPs to determine what is routed over the VPN."
 		read -rp "Allowed IPs list for generated clients (leave default to route everything): " -e -i '0.0.0.0/0,::/0' ALLOWED_IPS
