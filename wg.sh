@@ -129,7 +129,7 @@ function installQuestions() {
 	echo ""
 
 	# Detect public IPv4 or IPv6 address and pre-fill for the user
-	SERVER_PUB_IP=$(curl -s ifconfig.me || curl -s icanhazip.com || curl -s ident.me)
+	SERVER_PUB_IP=$(curl -s checkip.amazonaws.com || curl -s checkip.amazonaws.com)
 	if [[ -z ${SERVER_PUB_IP} ]]; then
 		# Detect public IPv6 address
 		SERVER_PUB_IP=$(ip -6 addr | sed -ne 's|^.* inet6 \([^/]*\)/.* scope global.*$|\1|p' | head -1)
