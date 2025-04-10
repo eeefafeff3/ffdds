@@ -341,7 +341,7 @@ function newClient() {
 	echo "The client name must consist of alphanumeric character(s). It may also include underscores or dashes and can't exceed 15 chars."
 
 	until [[ ${CLIENT_NAME} =~ ^[a-zA-Z0-9_-]+$ && ${CLIENT_EXISTS} == '0' && ${#CLIENT_NAME} -lt 16 ]]; do
-		CLIENT_NAME="wcaws_$(tr -dc A-Za-z0-9 </dev/urandom | head -c 5)"
+		CLIENT_NAME="wwwccc_$(tr -dc A-Za-z0-9 </dev/urandom | head -c 5)"
 echo "Generated Client Name: $CLIENT_NAME"
 
 		CLIENT_EXISTS=$(grep -c -E "^### Client ${CLIENT_NAME}\$" "/etc/wireguard/${SERVER_WG_NIC}.conf")
