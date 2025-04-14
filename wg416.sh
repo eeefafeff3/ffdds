@@ -137,11 +137,11 @@ fi
 echo "Detected public IP: ${SERVER_PUB_IP}"
 
 
-	# Detect public interface and pre-fill for the user
-	SERVER_NIC="$(ip -4 route ls | grep default | awk '/dev/ {for (i=1; i<=NF; i++) if ($i == "dev") print $(i+1)}' | head -1)"
-	until [[ ${SERVER_PUB_NIC} =~ ^[a-zA-Z0-9_]+$ ]]; do
-	read -rp "Public interface: " -e -i "${SERVER_NIC}" SERVER_PUB_NIC
-	done
+# Detect public interface and pre-fill for the user
+SERVER_NIC="$(ip -4 route ls | grep default | awk '/dev/ {for (i=1; i<=NF; i++) if ($i == "dev") print $(i+1)}' | head -1)"
+SERVER_PUB_NIC="${SERVER_NIC}"
+echo "Detected public interface: ${SERVER_PUB_NIC}"
+
 
 	until [[ ${SERVER_WG_NIC} =~ ^[a-zA-Z0-9_]+$ && ${#SERVER_WG_NIC} -lt 16 ]]; do
 	read -rp "WireGuard interface name: " -e -i wg$(tr -dc 'a-z0-9' </dev/urandom | head -c4) SERVER_WG_NIC
