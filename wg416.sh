@@ -128,13 +128,14 @@ function installQuestions() {
 	echo "You can keep the default options and just press enter if you are ok with them."
 	echo ""
 
-	# Detect public IPv4 or IPv6 address and pre-fill for the user
-	SERVER_PUB_IP=$(curl -s checkip.amazonaws.com || curl -s checkip.amazonaws.com)
-	if [[ -z ${SERVER_PUB_IP} ]]; then
-		# Detect public IPv6 address
-		SERVER_PUB_IP=$(ip -6 addr | sed -ne 's|^.* inet6 \([^/]*\)/.* scope global.*$|\1|p' | head -1)
-	fi
-	read -rp "IPv4 or IPv6 public address: " -e -i "${SERVER_PUB_IP}" SERVER_PUB_IP
+# Detect public IPv4 or IPv6 address and pre-fill for the user
+SERVER_PUB_IP=$(curl -s checkip.amazonaws.com || curl -s checkip.amazonaws.com)
+if [[ -z ${SERVER_PUB_IP} ]]; then
+	# Detect public IPv6 address
+	SERVER_PUB_IP=$(ip -6 addr | sed -ne 's|^.* inet6 \([^/]*\)/.* scope global.*$|\1|p' | head -1)
+fi
+echo "Detected public IP: ${SERVER_PUB_IP}"
+
 
 	# Detect public interface and pre-fill for the user
 	SERVER_NIC="$(ip -4 route ls | grep default | awk '/dev/ {for (i=1; i<=NF; i++) if ($i == "dev") print $(i+1)}' | head -1)"
