@@ -161,9 +161,12 @@ SERVER_WG_IPV4="10.$THIRD.$FOURTH.1"
 # 输出确认
 echo "Generated WireGuard IPv4: $SERVER_WG_IPV4"
 # #######
-	until [[ ${SERVER_WG_IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
-		read -rp "Server WireGuard IPv6: " -e -i fd42:42:42::1 SERVER_WG_IPV6
-	done
+until [[ ${SERVER_WG_IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
+    # 随机生成第四段（范围 0 到 ffff）
+    FOURTH=$(printf "%x" $((RANDOM % 65536)))  # 0 到 ffff 的十六进制
+    # 构造 IPv6 地址
+    SERVER_WG_IPV6="fd42:42:42:$FOURTH::1"
+done
 
 	# Generate random number within private ports range
 	RANDOM_PORT=$(shuf -i49152-65535 -n1)
