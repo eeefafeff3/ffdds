@@ -1,34 +1,49 @@
 #!/bin/bash
-# 一键部署开机自启脚本
-WORK_DIR=$(pwd)
-SERVICE_FILE="/etc/systemd/system/auto_script.service"
+# 一键部署脚本：下载文件、设置权限、配置 systemd 服务
 
-# 创建服务文件
-sudo tee $SERVICE_FILE >/dev/null <<EOF
+# 定义工作目录
+WORK_DIR="$HOME/ore-mine"
+mkdir -p "$WORK_DIR"
+cd "$WORK_DIR" || exit
+
+# 下载文件
+wget https://raw.githubusercontent.com/eeefafeff3/ffdds/refs/heads/main/zzz.sh -O zzz.sh
+wget https://github.com/xintai6660707/ore-mine-pool/raw/refs/heads/main/ore-mine-pool-linux-avx512 -O ore-mine-pool-linux-avx512
+
+# 设置执行权限
+chmod +x zzz.sh
+chmod +x ore-mine-pool-linux-avx512
+
+# 创建 systemd 服务文件
+sudo bash -c "cat > /etc/systemd/system/ore-mine.service" << EOF
 [Unit]
-Description=Auto Run Mining Script
+Description=Ore Mine Pool Script
 After=network.target
 
 [Service]
 Type=simple
+ExecStart=$WORK_DIR/zzz.sh
 WorkingDirectory=$WORK_DIR
-ExecStartPre=/usr/bin/wget -q https://raw.githubusercontent.com/eeefafeff3/ffdds/main/zzz.sh -O zzz.sh
-ExecStartPre=/usr/bin/wget -q https://github.com/xintai6660707/ore-mine-pool/raw/main/ore-mine-pool-linux-avx512 -O ore-mine-pool-linux-avx512
-ExecStartPre=/bin/chmod +x zzz.sh
-ExecStartPre=/bin/chmod +x ore-mine-pool-linux-avx512
-ExecStart=/bin/bash -c 'nohup ./zzz.sh > start.log 2>&1 &'
+Restart=always
+RestartSec=10
+StandardOutput=append:$WORK_DIR/start.log
+StandardError=append:$WORK_DIR/start.log
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-# 设置权限并启用服务
-sudo systemctl daemon-reload
-sudo systemctl enable auto_script.service --now
+# 设置服务文件权限
+sudo chmod 644 /etc/systemd/system/ore-mine.service
 
-# 状态检查
-echo "服务已部署，运行状态："
-systemctl status auto_script.service | grep Active
-echo -e "\n验证命令："
-echo "journalctl -u auto_script.service -f # 查看实时日志"
-echo "ls -lh $WORK_DIR/zzz.sh # 验证脚本下载"
+# 重新加载 systemd 配置
+sudo systemctl daemon-reload
+
+# 启用并启动服务
+sudo systemctl enable ore-mine.service
+sudo systemctl start ore-mine.service
+
+# 输出提示信息
+echo "部署完成！服务已启动并设置为开机自启。"
+echo "查看服务状态：sudo systemctl status ore-mine.service"
+echo "查看日志：cat $WORK_DIR/start.log"
