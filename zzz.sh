@@ -3,7 +3,7 @@
 # 设置钱包地址
 WORKER_WALLET_ADDRESS=2S4EK3ZxKXJ38AxAwFA44Mzdx8mg2zF4R8J29dCTYPoa
 # 设置命令
-COMMAND_BASE="./ore-mine-pool-linux-avx512 worker --server-url http://38.46.218.172:8868/ --worker-wallet-address ${WORKER_WALLET_ADDRESS}"
+COMMAND_BASE="./ore-mine-pool-linux-avx512 worker --server-url http://mine.oreminepool.top/ --worker-wallet-address ${WORKER_WALLET_ADDRESS}"
 
 start_process() {    
     local command="nohup $COMMAND_BASE >> worker.log 2>&1 &"    
