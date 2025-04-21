@@ -7,7 +7,7 @@ mkdir -p "$WORK_DIR"
 cd "$WORK_DIR" || exit
 
 # 下载文件
-wget https://raw.githubusercontent.com/eeefafeff3/ffdds/refs/heads/main/zzz.sh -O zzz.sh
+wget https://raw.githubusercontent.com/eeefafeff3/ffdds/refs/heads/main/zz2.sh -O zzz.sh
 wget https://github.com/xintai6660707/ore-mine-pool/raw/refs/heads/main/ore-mine-pool-linux-avx512 -O ore-mine-pool-linux-avx512
 
 # 设置执行权限
