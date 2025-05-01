@@ -171,7 +171,7 @@ until [[ ${SERVER_WG_IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
     # 随机生成第四段（范围 0 到 ffff）
     FOURTH=$(printf "%x" $((RANDOM % 65536)))
     # 构造 IPv6 地址
-    SERVER_WG_IPV6="fd42:$SECOND:$THIRD:$FOURTH::1"
+    SERVER_WG_IPV6="fe80:$SECOND:$THIRD:$FOURTH::1"
 done
 
 echo "生成的随机本地 IPv6 地址: $SERVER_WG_IPV6"   
