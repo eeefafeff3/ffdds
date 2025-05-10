@@ -158,7 +158,7 @@ THIRD=$((RANDOM % 212 + 11))  # 随机数范围 11 到 222
 FOURTH=$((RANDOM % 212 + 11)) # 随机数范围 11 到 222
 
 # 构造 IPv4 地址
-SERVER_WG_IPV4="172.$THIRD.$FOURTH.1"
+SERVER_WG_IPV4="10.$THIRD.$FOURTH.1"
 
 # 输出确认
 echo "Generated WireGuard IPv4: $SERVER_WG_IPV4"
