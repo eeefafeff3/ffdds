@@ -146,12 +146,14 @@ function installQuestions() {
     SERVER_WG_IPV4="10.$THIRD.$FOURTH.1"
     echo "Generated WireGuard IPv4: $SERVER_WG_IPV4"
 
-    # Generate random IPv6 address
-    SECOND=$(rand_hex)
-    THIRD=$(rand_hex)
-    FOURTH=$(rand_hex)
-    SERVER_WG_IPV6="fe80:${SECOND}:${THIRD}:${FOURTH}::1"
-    echo "Generated WireGuard IPv6: $SERVER_WG_IPV6"
+rand_hex() {
+    printf '%x' $((RANDOM % 65536))
+}
+SECOND=$(rand_hex)
+THIRD=$(rand_hex)
+FOURTH=$(rand_hex)
+SERVER_WG_IPV6="fe80:${SECOND}:${THIRD}:${FOURTH}::1"
+echo "Generated WireGuard IPv6: $SERVER_WG_IPV6"
 
     # Generate random port
     RANDOM_PORT=$(shuf -i49152-65535 -n1)
