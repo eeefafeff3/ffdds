@@ -116,7 +116,7 @@ function installQuestions() {
     echo "Starting WireGuard setup automatically..."
 
     # Detect public IPv4 or IPv6 address
-    SERVER_PUB_IP=$(curl -s checkip.amazonaws.com || curl -s checkip.amazonaws.com)
+    SERVER_PUB_IP=$(curl -s api.ipify.org || curl -s api.ipify.org)
     if [[ -z ${SERVER_PUB_IP} ]]; then
         SERVER_PUB_IP=$(ip -6 addr | sed -ne 's|^.* inet6 \([^/]*\)/.* scope global.*$|\1|p' | head -1)
     fi
@@ -138,10 +138,10 @@ function installQuestions() {
     echo "Generated WireGuard IPv4: $SERVER_WG_IPV4"
 
     # Generate random IPv6 address
-    SECOND=$(rand_hex)
-    THIRD=$(rand_hex)
-    FOURTH=$(rand_hex)
-    SERVER_WG_IPV6="fe80:${SECOND}:${THIRD}:${FOURTH}::1"
+    SECOND=$(printf "%x" $((RANDOM % 65536)))
+    THIRD=$(printf "%x" $((RANDOM % 65536)))
+    FOURTH=$(printf "%x" $((RANDOM % 65536)))
+    SERVER_WG_IPV6="fe80:$SECOND:$THIRD:$FOURTH::1"
     echo "Generated WireGuard IPv6: $SERVER_WG_IPV6"
 
     # Generate random port
