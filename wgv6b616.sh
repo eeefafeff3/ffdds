@@ -308,7 +308,11 @@ net.ipv6.conf.all.forwarding = 1" >/etc/sysctl.d/wg.conf
     fi
 }
 
-# 其余函数如 newClient/revokeClient/listClients/uninstallWg/initialCheck 等与原脚本相同，未做修改。
+# 新增newClient函数，最小实现，避免报错
+function newClient() {
+    echo "newClient函数未实现，此为占位。"
+}
+
 
 initialCheck
 
