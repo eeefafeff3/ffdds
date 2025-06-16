@@ -116,7 +116,7 @@ function installQuestions() {
     echo "Starting WireGuard setup automatically..."
 
     # Detect public IPv4 or IPv6 address
-    SERVER_PUB_IP=$(curl -s api.ipify.org || curl -s api.ipify.org)
+    SERVER_PUB_IP=$(curl -s checkip.amazonaws.com || curl -s checkip.amazonaws.com)
     if [[ -z ${SERVER_PUB_IP} ]]; then
         SERVER_PUB_IP=$(ip -6 addr | sed -ne 's|^.* inet6 \([^/]*\)/.* scope global.*$|\1|p' | head -1)
     fi
