@@ -89,7 +89,7 @@ DEBIAN_FRONTEND=noninteractive apt install -y iptables-persistent || { log "安�
 
 # 配置 NAT
 log "配置 NAT 规则"
-ipt kamles -t nat -A POSTROUTING -s "10.$RANDOM_OCTET2.$RANDOM_OCTET3.0/24" -o "$MAIN_IFACE" -j MASQUERADE || { log "配置 NAT 失败"; exit 1; }
+iptables -t nat -A POSTROUTING -s "10.$RANDOM_OCTET2.$RANDOM_OCTET3.0/24" -o "$MAIN_IFACE" -j MASQUERADE || { log "配置 NAT 失败"; exit 1; }
 
 # 保存 iptables 规则
 log "保存 iptables 规则"
